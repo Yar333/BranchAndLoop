@@ -61,13 +61,13 @@ namespace BranchAndLoop_2
                     {
                         switch (inStr)
                         {
-                            case "j": sum += 10; break;
-                            case "J": sum += 10; break;
-                            case "q": sum += 10; break;
-                            case "Q": sum += 10; break;
-                            case "k": sum += 10; break;
-                            case "K": sum += 10; break;
-                            case "t": sum += 10; break;
+                            case "j":
+                            case "J":
+                            case "q":
+                            case "Q":
+                            case "k":
+                            case "K":
+                            case "t":
                             case "T": sum += 10; break;
                             default: Console.WriteLine($"! {inStr} - такой карты не бывает !"); break;
                         }

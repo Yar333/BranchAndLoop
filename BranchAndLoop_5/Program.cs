@@ -14,47 +14,58 @@ namespace BranchAndLoop_5
         static void Main(string[] args)
         {
             int num = int.MaxValue;//генерируемое загадываемое число
-            int inNum = 0;//вводимое для отгадывания число
+            string inStr = "";
+            bool isNumExists = false;//есть неотгаданное число
+            int counter = 0;//число попыток
 
-            Console.Write("Задание 5. Игра «Угадай число»" +
-                "\n\nДля выхода введите любой символ кроме цифр или пустую строку" +
-                "\nВведите величину максимального загадываемого числа: ");
+            Console.Write("Задание 5. Игра «Угадай число»");
 
-            string inStr = Console.ReadLine();
-            inStr = inStr.Trim();
-
-            if (inStr != "" && inStr.All(Char.IsDigit))//проверка что вводимая строка целое число
+            while(true)
             {
-                num = new Random().Next(int.Parse(inStr));//"загадывание" числа
-                int counter = 0;//счётчик попыток. Его отрицательное значение - цикл прерван, число не отгадано
-                while (num != inNum)//выйти если число отгадано
+                if (isNumExists) //если есть загаданое число
                 {
-                    Console.Write("\nВведите число: "); //приглашение ввода числа
-                    inStr = Console.ReadLine();         //считывание числа
-
-                    if (inStr != "" &&              //если строка не пустая
-                        inStr.All(Char.IsDigit))    //и все введённые символы - цифры
+                    
+                    Console.Write("Введите число: ");   //приглашение ввода числа для отгадывания
+                    inStr = Console.ReadLine().Trim();  //считывание числа
+                    if (inStr == "")
                     {
-                        inNum = int.Parse(inStr);   //преобразовать введённую строку в число
-                        if (num != inNum)           //если число не угадано, то сообщить "в какую сторону" не угадано
+                        Console.WriteLine($"Загадано было {num}");
+                        break;//выход при вводе пустой строки
+                    }
+
+                    if (int.TryParse(inStr, out int parsedNum))//Если стррока с числом введена корректно
+                    {
+                        if (parsedNum == num)//число угадано
+                        {
+                            isNumExists = false;
+                            Console.WriteLine($"\nВы угадали! число попыток {counter}");
+                        }
+                        else//число не угадано
+                        {
+                            counter++;
                             Console.WriteLine("Введёное число "
-                                + (inNum > num ? "БОЛЬШЕ" : "МЕНЬШЕ")
-                                + " загаданного");
+                                            + (parsedNum > num ? "БОЛЬШЕ" : "МЕНЬШЕ")
+                                            + " загаданного");
+                        }
                     }
-                    else//выход из цикла при не отгаданном числе
-                    {
-                        Console.WriteLine($"\nЖаль, но Вы не отгадали.\nЗагаданное число было {num}\nНажмите любую клавишу");
-                        counter = -1;//признак того, что число не отгадано
-                        break;//прерывание цикла
-                    }
-
-                    counter++;//счётчик попыток
+                    else Console.WriteLine("Число введено не корректно");
                 }
-                if (counter > 0)//если выход из цикла был по отгаданному числу
-                    Console.WriteLine($"\nВы угадали! число попыток {counter}\nДля выхода нажмите любую клавишу");
+                else//нет загаданного числа
+                {
+                    Console.Write("\nДля выхода введите пустую строку" +
+                    "\nили введите величину максимального загадываемого числа: ");
+                    inStr = Console.ReadLine().Trim();
+                    if (inStr == "") break;
+
+                    if (int.TryParse(inStr, out int parsedRange))//Если стррока с числом введена корректно
+                    {
+                        num = new Random().Next(parsedRange);//"загадывание" числа
+                        counter = 0;//счётчик попыток. Его отрицательное значение - цикл прерван, число не отгадано
+                        isNumExists = true;
+                    }
+                    else Console.WriteLine("Максимальное число задано не корректно");
+                }
             }
-            else Console.WriteLine("\nДля выхода нажмите любую клавишу");
-            Console.ReadKey();
         }
     }
 }

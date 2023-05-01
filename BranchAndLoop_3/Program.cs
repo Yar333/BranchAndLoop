@@ -22,22 +22,26 @@ namespace BranchAndLoop_3
             inStr = inStr.Trim();//удалить пробелы
 
 
-            if (inStr != "" && inStr.All(Char.IsDigit))//если строка не пустая и были введены только цифры
+            //if (inStr != "" && inStr.All(Char.IsDigit))//если строка не пустая и были введены только цифры
+            if (int.TryParse(inStr, out int testedNumber))//если строка не пустая и были введены только цифры
             {
-                int testedNumber = int.Parse(inStr);
+                //int testedNumber = int.Parse(inStr);
                 if (testedNumber > 1)
                 {
                     //признак простого числа
                     bool isSimple = true;
 
                     //Цикл поиска делителя
-                    for (int i = 2; i < testedNumber; i++)
+                    //for (int i = 2; i < testedNumber; i++)
+                    int i = 2;
+                    while(i< testedNumber)
                     {
                         if (testedNumber % i == 0)//если остаток от деления нулевой (деление нацело)
                         {
                             isSimple = false;   //значит число не простое.
                             break;              //цикл можно прервать
                         }
+                        i++;
                     }
                     Console.WriteLine($"Введённое число {testedNumber} -" + (isSimple ? "" : " НЕ") + " является простым" +
                         "\nДля выхода нажмите любую клавишу");
